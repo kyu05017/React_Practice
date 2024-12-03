@@ -1,0 +1,78 @@
+<html>
+<head>
+    <title>구구단-웹게임</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <div id="root"></div>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>                     <!--개발용-->
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>             <!--개발용-->
+    <!--<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>-->           <!--배포용-->
+    <!--<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>-->   <!--배포용-->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+        'use strict';
+
+        //클래스 방식
+        // 만드는 컴포넌트는 대문자로 하고
+        // 원래존재하는 엘리맨트는 소문자로 한다
+        class LikeButton extends React.Component {
+            constructor(props){
+                super(props);
+                this.state = {liked:false};
+            }
+            render(){
+                if(this.state.liked){
+                    return '좋아요를 누름';
+                }
+                //return React.createElement('button',{onClick: () =>this.setState({liked:true})},'Like');
+                //JSX 문법
+                //addEventListener('click', ()=>{this.setState({liked:true})})
+                // 바벨이라는 라이브러리가 return 안에 있는 태그 문법을 렌더링 한다
+                return(
+                    <button onClick={()=>this.setState({liked:true})}>
+                        좋아요
+                    </button>
+                );
+                // input 태그는 닫는 태그를 꼭 달아줘야함 <input type="tel" />
+                // return 안에서 자바스크립트 사용은 {}사용해야 한다. {console.log("돼지");}
+                // return 안에서 오브젝트를 선언할때에는 {{}} 두번 사용 obj={{a:'b'}}
+                // return 안에서 삼항연산자 {this.state.liked : 'liked' : 'like!'}
+                // return 안에서 배열 
+                /*
+                    {1,2,3}.map((i) =>{
+                        return <div>i</div>
+                    })
+                */
+                // return 안에는 태그가 하나만 존재해야 한다. <></>(fragmant 태그는 가능)
+            }
+        }; // 1% ErrorBoundary
+        /*
+        //함수 방식
+        const LikeButton = ()=>{ //화살표 함수
+
+        }
+        function LikeButton() { // function 함수
+            
+        };
+        React
+        ReactDOM
+        */
+    </script>
+    <script type="text/babel">
+        // 소스를 볼때 버전을 체크 하고 랜더링 하는 스타일을 캐치해야 한다.
+        //ReactDOM.render(React.createElement(LikeButton),document.querySelector('#root')); // 리액트 17버전 스타일
+        //ReactDOM.render(<LikeButton />, document.querySelector('#root'));                 // 리액트 17버전 스타일
+        ReactDOM.createRoot(document.querySelector('#root')).render(
+            <div>
+                <LikeButton/>
+            </div>
+        );         // 리액트 18버전 스타일
+    </script>
+</body>
+</html>
+<!--
+1. 리액트는 라이브러리로 엘리벤트를 생성해주는 문법
+2. 바벨이 리엑트 문법내 return 내 태그를 랜더링 해서 html으로 뿌려준다.
+
+-->
