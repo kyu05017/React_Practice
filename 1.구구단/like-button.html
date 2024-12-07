@@ -16,21 +16,40 @@
         // 클래스 방식
         // 만드는 컴포넌트는 대문자로 하고
         // 원래존재하는 엘리맨트는 소문자로 한다
+        
+        /*
         class LikeButton extends React.Component {
             constructor(props){
                 super(props);
                 this.state = {liked:false};
+                this.onClickButton = this.onClickButton.bind(this);
             }
-            render(){
+            // 함수로 빼려면 생성자에서 바인딩을 해야한다. 
+            // 생상자를 안쓰려면 화살표 함수 사용
+            onClickButton() {
+                this.setState({liked:true});
+            }
+
+            render(){// 화면을 그리는 부분
                 if(this.state.liked){
                     return '좋아요를 누름';
                 }
+                
+                
+
+                //const array = [];
+                //pop, push, shift, unshift, splice   -> 배열을 직접적으로 수정
+                //concat, splice                      -> 새로운 배열을 생성 (사용 권고)
+
                 //return React.createElement('button',{onClick: () =>this.setState({liked:true})},'Like');
                 //JSX 문법
                 //addEventListener('click', ()=>{this.setState({liked:true})})
                 // 바벨이라는 라이브러리가 return 안에 있는 태그 문법을 렌더링 한다
                 return(
-                    <button onClick={()=>this.setState({liked:true})}>
+                    <button onClick={() =>{
+                        this.onClickButton();
+                        //this.state.liked = true; // 객체를 함부로 바꾸지 말것 (불변성)
+                    }}>
                         좋아요
                     </button>
                 );
@@ -39,25 +58,35 @@
                 // return 안에서 오브젝트를 선언할때에는 {{}} 두번 사용 obj={{a:'b'}}
                 // return 안에서 삼항연산자 {this.state.liked : 'liked' : 'like!'}
                 // return 안에서 배열 
-                /*
+                
                     {1,2,3}.map((i) =>{
                         return <div>i</div>
                     })
-                */
+                
                 // return 안에는 태그가 하나만 존재해야 한다. <></>(fragmant 태그는 가능)
             }
         }; // 1% ErrorBoundary
-        /*
-        //함수 방식
-        const LikeButton = ()=>{ //화살표 함수
-
-        }
-        function LikeButton() { // function 함수
-            
-        };
-        React
-        ReactDOM
         */
+        // 함수 컴포넌트 방식
+        function LikeButton() { // function 함수
+                // 데이터, 데이터상태 변경
+            const [liked,setLiked] = React.useState(false); // 구조분해 문법
+            // 구조분해 문법 예시
+            // const result = React.useState(false);
+            // const liked  = result[0];
+            // const setLiked = result[1];
+
+            // 최종적으로는 return 한게 화면의 출력
+            if(liked == true){
+                return '좋아요 누름';
+            }
+
+            return(
+                <button onClick={()=>{
+                    setLiked(true);
+                }}>좋아요</button>
+            );
+        };
     </script>
     <script type="text/babel">
         // 소스를 볼때 버전을 체크 하고 랜더링 하는 스타일을 캐치해야 한다.
@@ -65,9 +94,12 @@
         //ReactDOM.render(<LikeButton />, document.querySelector('#root'));                 // 리액트 17버전 스타일
         ReactDOM.createRoot(document.querySelector('#root')).render(
             <div>
-                <LikeButton/>
+                <LikeButton />
+                <LikeButton />
+                <LikeButton />
+                <LikeButton />
             </div>
-        );         // 리액트 18버전 스타일
+        );// 리액트 18버전 스타일
     </script>
 </body>
 </html>
