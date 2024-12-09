@@ -1,0 +1,88 @@
+<html>
+    <head>
+        <title>구구단</title>
+        <meta charset="utf-8" />
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>                     <!--개발용-->
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>             <!--개발용-->
+        <!--<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>-->           <!--배포용-->
+        <!--<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>-->   <!--배포용-->
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="text/babel">
+            class GuGuDan extends React.Component {
+                // 생성자~~~~
+                constructor(props){
+                    super(props);
+                    this.state = {
+                        first   : Math.ceil(Math.random()*9),
+                        second  : Math.ceil(Math.random()*9),
+                        value   : '',
+                        result  : '',
+                        onClickButton : this.onClickButton.bind(this),
+                        onChangeInput : this.onChangeInput.bind(this)
+                    };
+                }
+                /*
+                constructor == ( 실무에서는 더 잘사용되는 방식 )
+                
+                state = {
+                    first   : Math.ceil(Math.random()*9),
+                    second  : Math.ceil(Math.random()*9),
+                    value   : '',
+                    result  : '',
+                    onClickButton : this.onClickButton.bind(this),
+                    onChangeInput : this.onChangeInput.bind(this)
+                };
+                */
+
+                onClickButton(e){
+                    let inputValue = this.state.value;
+                    let answer = this.state.first * this.state.second;
+                    let resultMsg = '';
+
+                    if(inputValue == answer){
+                        resultMsg = '입력한 답 : '+ inputValue + '\n 정답';
+                    } else {
+                        resultMsg = '오답! 입력한 답 : '+ inputValue + '\n 정답 : '+answer;
+                    }
+
+                    this.setState({
+                        result : resultMsg,
+                        value : '',
+                        first   : Math.ceil(Math.random()*9),
+                        second  : Math.ceil(Math.random()*9)
+                    })
+                };
+
+                // function으로 따로 지정시 this (스코프)가 달라질수 있다
+                // class 가 아닌 document 
+                onChangeInput(e){
+                    this.setState({value : e.target.value});
+                };
+
+                render() {
+                    return(
+                        <React.Fragment>{/* == <> babel 지원 안함 (React 라이브러리 필요) */}
+                            <div>{this.state.first} 곱하기 {this.state.second}는(은)?</div>
+                                {/* 직접적으로 input 컨트롤은 불가능 하며, onChange로 컨트롤 해야한다. */}
+                                <input type='number' value={this.state.value} onChange={(e)=>{
+                                    this.onChangeInput(e);
+                                }} />
+                                
+                                <button onClick={()=>{
+                                    this.onClickButton(this);
+                                }} > 입력 </button>
+                            
+                            <div>{this.state.result}</div>
+                        </React.Fragment>
+                    );
+                }
+            }
+        </script>
+        <script type="text/babel">
+            ReactDOM.render(<GuGuDan />, document.querySelector('#root'));
+        </script>
+    </body>
+</html>
